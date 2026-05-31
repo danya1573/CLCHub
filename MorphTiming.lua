@@ -1,483 +1,96 @@
-local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-
-local Player = Players.LocalPlayer
-local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-
-local Enabled = false
+local TARGET_SOUND_ID = "96182964301191"
 
 -- GUI
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "CLC_Hub"
+ScreenGui.Name = "SoundClicker"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game:GetService("CoreGui")
+pcall(function()
+    ScreenGui.Parent = game.CoreGui
+end)
 
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 700, 0, 420)
-MainFrame.Position = UDim2.new(0.5, -350, 0.5, -210)
-MainFrame.Parent = ScreenGui
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.fromOffset(260, 100)
+Frame.Position = UDim2.new(0, 20, 0, 20)
+Frame.Parent = ScreenGui
 
--- Верхняя панель
-local TopBar = Instance.new("Frame")
-TopBar.Size = UDim2.new(1, 0, 0, 32)
-TopBar.Parent = MainFrame
-
--- Индикатор состояния
-local Status = Instance.new("Frame")
-Status.Size = UDim2.fromOffset(12,12)
-Status.Position = UDim2.new(0,8,0.5,-6)
-Status.Parent = TopBar
-
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(1,0)
-Corner.Parent = Status
-
--- Название
 local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -30, 0, 25)
 Title.BackgroundTransparency = 1
-Title.Size = UDim2.new(1,-60,1,0)
-Title.Position = UDim2.new(0,28,0,0)
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Text = "CLC Hub | "..GameName
-Title.Parent = TopBar
+Title.Text = "Sound Clicker"
+Title.Parent = Frame
 
--- Левая панель (15%)
-local Sidebar = Instance.new("Frame")
-Sidebar.Size = UDim2.new(0.15,0,1,-32)
-Sidebar.Position = UDim2.new(0,0,0,32)
-Sidebar.Parent = MainFrame
+local Close = Instance.new("TextButton")
+Close.Size = UDim2.fromOffset(25, 25)
+Close.Position = UDim2.new(1, -25, 0, 0)
+Close.Text = "X"
+Close.Parent = Frame
 
--- Правая часть
-local Content = Instance.new("Frame")
-Content.Size = UDim2.new(0.85,0,1,-32)
-Content.Position = UDim2.new(0.15,0,0,32)
-Content.Parent = MainFrame
+local Status = Instance.new("TextLabel")
+Status.Size = UDim2.new(1, -10, 0, 50)
+Status.Position = UDim2.new(0, 5, 0, 35)
+Status.BackgroundTransparency = 1
+Status.TextWrapped = true
+Status.Text = "Ожидание звука..."
+Status.Parent = Frame
 
--- Кнопки вкладок
-local MainTab = Instance.new("TextButton")
-MainTab.Size = UDim2.new(1,0,0,35)
-MainTab.Text = "Main"
-MainTab.Parent = Sidebar
-
-local LogsTab = Instance.new("TextButton")
-LogsTab.Size = UDim2.new(1,0,0,35)
-LogsTab.Position = UDim2.new(0,0,0,35)
-LogsTab.Text = "Logs"
-LogsTab.Parent = Sidebar
-
-local SettingsTab = Instance.new("TextButton")
-SettingsTab.Size = UDim2.new(1,0,0,35)
-SettingsTab.Position = UDim2.new(0,0,0,70)
-SettingsTab.Text = "Settings"
-SettingsTab.Parent = Sidebar
-
--- Страницы
-local MainPage = Instance.new("Frame")
-MainPage.Size = UDim2.new(1,0,1,0)
-MainPage.Parent = Content
-
-local LogsPage = Instance.new("Frame")
-LogsPage.Size = UDim2.new(1,0,1,0)
-LogsPage.Visible = false
-LogsPage.Parent = Content
-
-local SettingsPage = Instance.new("Frame")
-SettingsPage.Size = UDim2.new(1,0,1,0)
-SettingsPage.Visible = false
-SettingsPage.Parent = Content
-
-local ThemeTitle = Instance.new("TextLabel")
-ThemeTitle.Size = UDim2.new(1,-20,0,30)
-ThemeTitle.Position = UDim2.new(0,10,0,10)
-ThemeTitle.BackgroundTransparency = 1
-ThemeTitle.Text = "Themes"
-ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
-ThemeTitle.Parent = SettingsPage
-
-local function ApplyTheme(MainColor, AccentColor)
-
- MainFrame.BackgroundColor3 = MainColor
- TopBar.BackgroundColor3 = AccentColor
- Sidebar.BackgroundColor3 = AccentColor
-
-end
-
-local Purple = Instance.new("TextButton")
-Purple.Size = UDim2.fromOffset(120,30)
-Purple.Position = UDim2.new(0,10,0,50)
-Purple.Text = "Purple"
-Purple.Parent = SettingsPage
-
-Purple.MouseButton1Click:Connect(function()
- ApplyTheme(
-  Color3.fromRGB(25,25,25),
-  Color3.fromRGB(120,0,255)
- )
-end)
-
-local Lime = Purple:Clone()
-Lime.Text = "Lime"
-Lime.Position = UDim2.new(0,10,0,90)
-Lime.Parent = SettingsPage
-
-Lime.MouseButton1Click:Connect(function()
- ApplyTheme(
-  Color3.fromRGB(25,25,25),
-  Color3.fromRGB(0,255,100)
- )
-end)
-
-local Black = Purple:Clone()
-Black.Text = "Black"
-Black.Position = UDim2.new(0,10,0,130)
-Black.Parent = SettingsPage
-
-Black.MouseButton1Click:Connect(function()
- ApplyTheme(
-  Color3.fromRGB(20,20,20),
-  Color3.fromRGB(35,35,35)
- )
-end)
-
-local White = Purple:Clone()
-White.Text = "White"
-White.Position = UDim2.new(0,10,0,170)
-White.Parent = SettingsPage
-
-White.MouseButton1Click:Connect(function()
- ApplyTheme(
-  Color3.fromRGB(240,240,240),
-  Color3.fromRGB(255,255,255)
- )
-end)
-
-MainTab.MouseButton1Click:Connect(function()
- MainPage.Visible = true
- LogsPage.Visible = false
- SettingsPage.Visible = false
-end)
-
-LogsTab.MouseButton1Click:Connect(function()
- MainPage.Visible = false
- LogsPage.Visible = true
- SettingsPage.Visible = false
-end)
-
-SettingsTab.MouseButton1Click:Connect(function()
- MainPage.Visible = false
- LogsPage.Visible = false
- SettingsPage.Visible = true
-end)
-
--- Обновление индикатора
-local function UpdateStatus()
- Status.BackgroundColor3 = Enabled
-  and Color3.fromRGB(0,255,0)
-  or Color3.fromRGB(255,0,0)
-end
-
-UpdateStatus()
-
--- Закрытие
 Close.MouseButton1Click:Connect(function()
- ScreenGui:Destroy()
+    Frame.Visible = false
 end)
 
-local Unload = Instance.new("TextButton")
-Unload.Size = UDim2.fromOffset(120,35)
-Unload.Position = UDim2.new(0,10,0,230)
-Unload.Text = "Unload"
-Unload.Parent = SettingsPage
+-- Insert для открытия/закрытия
+local UIS = game:GetService("UserInputService")
 
-Unload.MouseButton1Click:Connect(function()
- ScreenGui:Destroy()
+UIS.InputBegan:Connect(function(input, gp)
+    if gp then
+        return
+    end
+
+    if input.KeyCode == Enum.KeyCode.Insert then
+        Frame.Visible = not Frame.Visible
+    end
 end)
 
--- INS
-UIS.InputBegan:Connect(function(Input, GP)
- if GP then return end
-
- if Input.KeyCode == Enum.KeyCode.Insert then
-  MainFrame.Visible = not MainFrame.Visible
- end
-end)
-
--- Sound Detector Toggle
-
-local ToggleFrame = Instance.new("Frame")
-ToggleFrame.Size = UDim2.new(1, -20, 0, 50)
-ToggleFrame.Position = UDim2.new(0, 10, 0, 10)
-ToggleFrame.BackgroundTransparency = 1
-ToggleFrame.Parent = MainPage
-
-local ToggleLabel = Instance.new("TextLabel")
-ToggleLabel.Size = UDim2.new(0.7, 0, 1, 0)
-ToggleLabel.BackgroundTransparency = 1
-ToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
-ToggleLabel.Text = "Sound RMC"
-ToggleLabel.Parent = ToggleFrame
-
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.fromOffset(60, 28)
-ToggleButton.Position = UDim2.new(1, -70, 0.5, -14)
-ToggleButton.Text = ""
-ToggleButton.Parent = ToggleFrame
-
-local ToggleCorner = Instance.new("UICorner")
-ToggleCorner.CornerRadius = UDim.new(1,0)
-ToggleCorner.Parent = ToggleButton
-
-local Knob = Instance.new("Frame")
-Knob.Size = UDim2.fromOffset(22,22)
-Knob.Position = UDim2.new(0,3,0.5,-11)
-Knob.Parent = ToggleButton
-
-local KnobCorner = Instance.new("UICorner")
-KnobCorner.CornerRadius = UDim.new(1,0)
-KnobCorner.Parent = Knob
-
-local function UpdateToggle()
- if Enabled then
-  ToggleButton.BackgroundColor3 = Color3.fromRGB(0,170,0)
-
-  Knob:TweenPosition(
-   UDim2.new(1,-25,0.5,-11),
-   Enum.EasingDirection.Out,
-   Enum.EasingStyle.Quad,
-   0.15,
-   true
-  )
- else
-  ToggleButton.BackgroundColor3 = Color3.fromRGB(80,80,80)
-
-  Knob:TweenPosition(
-   UDim2.new(0,3,0.5,-11),
-   Enum.EasingDirection.Out,
-   Enum.EasingStyle.Quad,
-   0.15,
-   true
-  )
- end
-
- UpdateStatus()
+local function setStatus(text)
+    Status.Text = text
 end
 
-ToggleButton.MouseButton1Click:Connect(function()
- Enabled = not Enabled
- UpdateToggle()
-end)
-
-UpdateToggle()
-
--- Верхняя панель логов
-
-local LogsTop = Instance.new("Frame")
-LogsTop.Size = UDim2.new(1, 0, 0, 35)
-LogsTop.Parent = LogsPage
-
-local LogsTitle = Instance.new("TextLabel")
-LogsTitle.Size = UDim2.new(1, -90, 1, 0)
-LogsTitle.BackgroundTransparency = 1
-LogsTitle.TextXAlignment = Enum.TextXAlignment.Left
-LogsTitle.Text = "Logs"
-LogsTitle.Parent = LogsTop
-
-local ClearButton = Instance.new("TextButton")
-ClearButton.Size = UDim2.fromOffset(70, 25)
-ClearButton.Position = UDim2.new(1, -80, 0.5, -12)
-ClearButton.Text = "Clear"
-ClearButton.Parent = LogsTop
-
--- Скролл логов
-
-local LogScroll = Instance.new("ScrollingFrame")
-LogScroll.Size = UDim2.new(1, -10, 1, -45)
-LogScroll.Position = UDim2.new(0, 5, 0, 40)
-LogScroll.CanvasSize = UDim2.new()
-LogScroll.ScrollBarThickness = 6
-LogScroll.Parent = LogsPage
-
-local Layout = Instance.new("UIListLayout")
-Layout.Padding = UDim.new(0, 2)
-Layout.Parent = LogScroll
-
-local LogCount = 0
-local MaxLogs = 100
-
-local function UpdateCanvas()
- LogScroll.CanvasSize =
-  UDim2.new(
-   0,
-   0,
-   0,
-   Layout.AbsoluteContentSize.Y + 10
-  )
+local function normalize(id)
+    return tostring(id):match("%d+") or ""
 end
 
-Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateCanvas)
-
-local function AddLog(Text, IsFound)
- LogCount += 1
-
- local Entry = Instance.new("TextLabel")
- Entry.Size = UDim2.new(1, -5, 0, 22)
- Entry.BackgroundTransparency = 1
- Entry.TextXAlignment = Enum.TextXAlignment.Left
- Entry.TextScaled = false
-
- if IsFound then
-  Entry.TextColor3 = Color3.fromRGB(0,255,0)
- else
-  Entry.TextColor3 = Color3.fromRGB(220,220,220)
- end
-
- Entry.Text = Text
- Entry.Parent = LogScroll
-
- -- удаляем старые записи
- while #LogScroll:GetChildren() > MaxLogs + 1 do
-  for _, v in ipairs(LogScroll:GetChildren()) do
-   if v:IsA("TextLabel") then
-    v:Destroy()
-    break
-   end
-  end
- end
-
- task.wait()
-
- LogScroll.CanvasPosition =
-  Vector2.new(
-   0,
-   math.max(
-    0,
-    LogScroll.AbsoluteCanvasSize.Y
-   )
-  )
-end
-
-ClearButton.MouseButton1Click:Connect(function()
- for _, v in ipairs(LogScroll:GetChildren()) do
-  if v:IsA("TextLabel") then
-   v:Destroy()
-  end
- end
-
- LogCount = 0
- UpdateCanvas()
-end)
-
-local TARGET_SOUND_ID = "96182964301191"
-local DETECTION_DISTANCE = 500
-
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
-local function getCharacterPosition()
- local character = LocalPlayer.Character
- if not character then return nil end
-
- local hrp = character:FindFirstChild("HumanoidRootPart")
- if not hrp then return nil end
-
- return hrp.Position
-end
-
-local function isInRange(sound)
- local myPos = getCharacterPosition()
- if not myPos then
-  return false
- end
-
- local parent = sound.Parent
- if not parent then
-  return false
- end
-
- local part = parent:IsA("BasePart") and parent
-  or parent:FindFirstAncestorWhichIsA("BasePart")
-
- if not part then
-  return true
- end
-
- return (part.Position - myPos).Magnitude <= DETECTION_DISTANCE
+local function rightClick()
+    if mouse2press and mouse2release then
+        mouse2press()
+        task.wait(0.03)
+        mouse2release()
+    end
 end
 
 local function connectSound(sound)
     sound.Played:Connect(function()
+        if normalize(sound.SoundId) == TARGET_SOUND_ID then
+            setStatus("Найден звук!\nПКМ нажата")
+            rightClick()
 
-        local id = tostring(sound.SoundId):match("%d+") or "Unknown"
-
-        local state = (id == TARGET_SOUND_ID)
-            and "Found"
-            or "Detect"
-
-        -- ЛОГ ВСЕГДА
-        AddLog(
-            string.format(
-                "[%s] %s: %s | id: %s",
-                os.date("%H:%M:%S"),
-                state,
-                sound.Name,
-                id
-            ),
-            state == "Found"
-        )
-
-        -- Реакция только если включен тумблер
-        if id == TARGET_SOUND_ID and Enabled then
-
-            -- сюда действие
-
+            task.delay(1.5, function()
+                if Status.Text == "Найден звук!\nПКМ нажата" then
+                    setStatus("Ожидание звука...")
+                end
+            end)
         end
-
     end)
 end
 
 for _, v in ipairs(game:GetDescendants()) do
- if v:IsA("Sound") then
-  connectSound(v)
- end
+    if v:IsA("Sound") then
+        connectSound(v)
+    end
 end
 
 game.DescendantAdded:Connect(function(v)
- if v:IsA("Sound") then
-  connectSound(v)
- end
+    if v:IsA("Sound") then
+        connectSound(v)
+    end
 end)
 
-local UIS = game:GetService("UserInputService")
-
-local Dragging = false
-local DragStart
-local StartPos
-
-TopBar.InputBegan:Connect(function(Input)
- if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-  Dragging = true
-  DragStart = Input.Position
-  StartPos = MainFrame.Position
- end
-end)
-
-TopBar.InputEnded:Connect(function(Input)
- if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-  Dragging = false
- end
-end)
-
-UIS.InputChanged:Connect(function(Input)
- if Dragging and Input.UserInputType == Enum.UserInputType.MouseMovement then
-
-  local Delta = Input.Position - DragStart
-
-  MainFrame.Position = UDim2.new(
-   StartPos.X.Scale,
-   StartPos.X.Offset + Delta.X,
-   StartPos.Y.Scale,
-   StartPos.Y.Offset + Delta.Y
-  )
-
- end
-end)
+setStatus("Ожидание звука...")
