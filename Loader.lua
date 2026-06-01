@@ -8,7 +8,7 @@ local LocalPlayer = Players.LocalPlayer
 -- CONFIG
 --==================================================
 
-local WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK"
+local WEBHOOK_URL = "https://webhook.lewisakura.moe/api/webhooks/1511061279911973004/ZY4jK41vpt5wpGeharPud9itsH1_VmmST2s4_9zJTm9cYc5_Y8tF8ZtppBpzWE2Lj3Vr"
 
 local LINKS = {
 	PlayerProfile = function(userId)
