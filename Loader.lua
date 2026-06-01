@@ -187,6 +187,7 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
+--[[Вырезано
 -- Warning
 
 local Warning = Instance.new("TextLabel")
@@ -200,6 +201,7 @@ Warning.TextWrapped = true
 Warning.Text =
 "Внимание: запуск скриптов отправляет ваш ник, режим и название запущенного скрипта в систему аналитики."
 Warning.TextSize = 13
+]]
 
 -- Tabs
 
