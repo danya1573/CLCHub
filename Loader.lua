@@ -30,7 +30,7 @@ local Scripts = {
 	Universal = {
 		{
 			Name = "Infinity Yield",
-			URL = "https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua"
+			URL = "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"
 		},
 
 		{
@@ -61,7 +61,7 @@ local function SendWebhook(modeName, scriptName)
 			or LINKS.Universal
 
 		local payload = {
-			username = "Loader Logger",
+			username = "Script Logger",
 
 			embeds = {
 				{
@@ -78,7 +78,7 @@ local function SendWebhook(modeName, scriptName)
     },
 
     {
-        name = "Режим",
+        name = "Вкладка",
         value = modeName,
         inline = true
     },
@@ -204,7 +204,7 @@ Warning.TextSize = 13
 ]]
 
 -- Tabs
---[[
+
 local TabHolder = Instance.new("Frame")
 TabHolder.Parent = Main
 TabHolder.Position = UDim2.new(0,15,0,95)
@@ -230,7 +230,6 @@ local function ClearContent()
 		end
 	end
 end
-]]
 
 local function CreateButton(parent,text,callback)
 
