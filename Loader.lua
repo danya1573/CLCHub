@@ -13,23 +13,20 @@ local WEBHOOK_URL = "https://discord.com/api/webhooks/1511061279911973004/ZY4jK4
 local LINKS = {
 	PlayerProfile = function(userId)
 		return "https://www.roblox.com/users/" .. userId .. "/profile"
-	end,
-
-	TypeSoul = "https://www.roblox.com/games/126884695634066/TYPE-SOUL",
-	Universal = "https://www.roblox.com/games"
+	end
 }
 
 local Scripts = {
-	TypeSoul = {
+	Places = {
 		{
-			Name = "MorphTimings",
+			Name = "Type://Soul MorphTimings",
 			URL = "https://raw.githubusercontent.com/danya1573/CLCHub/refs/heads/main/MorphTiming.lua"
 		}
 	},
 
 	Universal = {
 		{
-			Name = "Infinity Yield",
+			Name = "Infinite Yield",
 			URL = "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"
 		},
 
@@ -54,11 +51,6 @@ local function SendWebhook(modeName, scriptName)
 			
 		local currentGameLink =
     		"https://www.roblox.com/games/" .. game.PlaceId
-			
-		local modeLink =
-			modeName == "Type://Soul"
-			and LINKS.TypeSoul
-			or LINKS.Universal
 
 		local payload = {
 			username = "Script Logger",
@@ -280,8 +272,8 @@ local function OpenPage(modeName)
 
 	local data
 
-	if modeName == "Type://Soul" then
-		data = Scripts.TypeSoul
+	if modeName == "Places" then
+		data = Scripts.Places
 	else
 		data = Scripts.Universal
 	end
@@ -315,10 +307,10 @@ tabLayout.Padding = UDim.new(0,8)
 
 CreateButton(
 	TabHolder,
-	"Type://Soul",
+	"Places",
 
 	function()
-		OpenPage("Type://Soul")
+		OpenPage("Places")
 	end
 )
 
@@ -331,7 +323,7 @@ CreateButton(
 	end
 )
 
-OpenPage("Type://Soul")
+OpenPage("Places")
 
 --==================================================
 -- DRAGGING
