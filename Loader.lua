@@ -8,8 +8,6 @@ local LocalPlayer = Players.LocalPlayer
 -- CONFIG
 --==================================================
 
-local WEBHOOK_URL = "https://discord.com/api/webhooks/1511061279911973004/ZY4jK41vpt5wpGeharPud9itsH1_VmmST2s4_9zJTm9cYc5_Y8tF8ZtppBpzWE2Lj3Vr"
-
 local LINKS = {
 	PlayerProfile = function(userId)
 		return "https://www.roblox.com/users/" .. userId .. "/profile"
@@ -231,6 +229,7 @@ local function ClearContent()
 	end
 end
 
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1511061279911973004/ZY4jK41vpt5wpGeharPud9itsH1_VmmST2s4_9zJTm9cYc5_Y8tF8ZtppBpzWE2Lj3Vr"
 local function CreateButton(parent,text,callback)
 
 	local Btn = Instance.new("TextButton")
