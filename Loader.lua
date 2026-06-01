@@ -187,9 +187,22 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
---[[Вырезано
+
 -- Warning
 
+local Warning = Instance.new("TextLabel")
+Warning.Parent = Main
+Warning.Position = UDim2.new(0,15,0,50)
+Warning.Size = UDim2.new(1,-30,0,40)
+Warning.BackgroundTransparency = 1
+Warning.Font = Enum.Font.Gotham
+Warning.TextColor3 = Color3.fromRGB(255,170,0)
+Warning.TextWrapped = true
+Warning.Text =
+"Внимание: При запуске Infinite Yield есть шанс получить бан в режиме зависит от античита"
+Warning.TextSize = 13
+
+--[[Вырезано
 local Warning = Instance.new("TextLabel")
 Warning.Parent = Main
 Warning.Position = UDim2.new(0,15,0,50)
