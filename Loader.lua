@@ -51,7 +51,10 @@ local Scripts = {
 
 local function SendWebhook(modeName, scriptName)
 	task.spawn(function()
-
+			
+		local currentGameLink =
+    		"https://www.roblox.com/games/" .. game.PlaceId
+			
 		local modeLink =
 			modeName == "Type://Soul"
 			and LINKS.TypeSoul
@@ -68,52 +71,46 @@ local function SendWebhook(modeName, scriptName)
 					color = 3092790,
 
 					fields = {
-						{
-							name = "Игрок",
-							value = LocalPlayer.Name,
-							inline = true
-						},
+    {
+        name = "Игрок",
+        value = LocalPlayer.Name,
+        inline = true
+    },
 
-						{
-							name = "Режим",
-							value = modeName,
-							inline = true
-						},
+    {
+        name = "Режим",
+        value = modeName,
+        inline = true
+    },
 
-						{
-							name = "Скрипт",
-							value = scriptName,
-							inline = false
-						}
-					},
+    {
+        name = "Скрипт",
+        value = scriptName,
+        inline = false
+    },
+
+    {
+        name = "Профиль игрока",
+        value = "[Открыть профиль](" ..
+            LINKS.PlayerProfile(LocalPlayer.UserId) ..
+            ")",
+        inline = false
+    },
+
+    {
+        name = "Текущая игра",
+        value = "[Открыть игру](" ..
+            currentGameLink ..
+            ")",
+        inline = false
+    }
+},
 
 					footer = {
 						text = "Loader Analytics"
 					}
 				}
 			},
-
-			components = {
-				{
-					type = 1,
-
-					components = {
-						{
-							type = 2,
-							style = 5,
-							label = "Профиль игрока",
-							url = LINKS.PlayerProfile(LocalPlayer.UserId)
-						},
-
-						{
-							type = 2,
-							style = 5,
-							label = "Открыть режим",
-							url = modeLink
-						}
-					}
-				}
-			}
 		}
 
 		pcall(function()
@@ -167,6 +164,28 @@ Title.Font = Enum.Font.GothamBold
 Title.Text = "Custom Loader"
 Title.TextColor3 = Color3.new(1,1,1)
 Title.TextSize = 18
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = TopBar
+CloseButton.AnchorPoint = Vector2.new(1,0)
+CloseButton.Position = UDim2.new(1,-8,0,6)
+CloseButton.Size = UDim2.new(0,28,0,28)
+
+CloseButton.Text = "X"
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 14
+
+CloseButton.TextColor3 = Color3.new(1,1,1)
+CloseButton.BackgroundColor3 = Color3.fromRGB(220,40,40)
+CloseButton.BorderSizePixel = 0
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0,8)
+CloseCorner.Parent = CloseButton
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
 
 -- Warning
 
